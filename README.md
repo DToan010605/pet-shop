@@ -69,7 +69,18 @@ pet-shop/
 │── store/                # Zustand store
 │── public/               # Ảnh, icon
 │── package.json
-│── README.md             # Hướng dẫn (file này)
+│── README.md             # Hướng dẫn
 
 ```
 ---
+
+## 👨‍💻 Thành viên nhóm
+  -Nguyễn Minh Anh (Leader)
+  -Nguyễn Doãn Toàn (Frontend)
+  -Chu Thị Mỹ Duyên (Frontend)
+  -Trần Đăng Tài (Backend)
+
+---
+## 📜 License
+
+MIT License © 2025 - PET SHOP Project
