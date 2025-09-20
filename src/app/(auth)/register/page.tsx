@@ -209,7 +209,7 @@ export default function RegisterPage() {
               Nếu đã có tài khoản, vui lòng chọn đăng nhập
             </p>
             <button className="px-6 py-2 rounded-full border border-white hover:bg-white/10">
-              Đăng nhập
+              <a href="/login">Đăng nhập</a>
             </button>
           </div>
         </div>
