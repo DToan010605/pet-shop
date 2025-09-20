@@ -38,3 +38,7 @@ Dự án cho phép khách hàng mua sản phẩm, đặt dịch vụ chăm sóc 
 ```bash
 git clone https://github.com/DToan010605/pet-shop.git
 cd pet-shop
+
+### 3. Cài đặt dependencies
+git clone https://github.com/DToan010605/pet-shop.git
+cd pet-shop
