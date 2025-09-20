@@ -38,10 +38,38 @@ Dự án cho phép khách hàng mua sản phẩm, đặt dịch vụ chăm sóc 
 ```bash
 git clone https://github.com/DToan010605/pet-shop.git
 cd pet-shop
+```
 
 ### 3. Cài đặt dependencies
+```bash
 npm install
 # hoặc
 yarn install
+```
 
+### 4. Chạy dự án (Development)
+```bash
+npm run dev
+```
+
+### 5. Build & chạy Production
+```bash
+npm run build
+npm run start
+```
+
+### 6. Cấu trúc thư mục
+```csharp
+pet-shop/
+│── app/                  # Source chính
+│   ├── (auth)/           # Trang đăng nhập, đăng ký
+│   ├── layout.tsx        # Layout chính
+│   └── globals.css       # CSS toàn cục
+│
+│── store/                # Zustand store
+│── public/               # Ảnh, icon
+│── package.json
+│── README.md             # Hướng dẫn (file này)
+
+```
 ---
