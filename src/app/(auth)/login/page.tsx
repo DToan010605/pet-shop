@@ -38,7 +38,7 @@ export default function LoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="w-full border-0 border-b-2 border-[#0FA958] bg-transparent py-2 outline-none placeholder-gray-400"
+                  className="w-full border-b-2 border-gray-300 bg-transparent py-2 outline-none placeholder-gray-400 focus:border-[#0FA958]"
                   placeholder="email@vd.com"
                 />
               </div>
@@ -53,7 +53,7 @@ export default function LoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   minLength={6}
-                  className="w-full border-b-2 border-gray-300 bg-transparent py-2 outline-none placeholder-gray-400"
+                  className="w-full border-b-2 border-gray-300 bg-transparent py-2 outline-none placeholder-gray-400 focus:border-[#0FA958]"
                   placeholder="Mật khẩu"
                 />
               </div>
@@ -70,8 +70,12 @@ export default function LoginPage() {
 
               <button
                 type="submit"
-                className="w-full py-3 rounded-full bg-gray-300 text-gray-600 font-semibold disabled:opacity-60"
-                disabled={!email || !password}
+                disabled={!email || password.length < 6}
+                className={`w-full py-3 rounded-full font-semibold transition-colors
+                  ${!email || password.length < 6
+                    ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+                    : "bg-[#0FA958] text-white hover:bg-green-700 cursor-pointer"
+                  }`}
               >
                 Đăng nhập
               </button>
