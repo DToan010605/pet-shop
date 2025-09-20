@@ -75,10 +75,10 @@ pet-shop/
 ---
 
 ## 👨‍💻 Thành viên nhóm
-  -Nguyễn Minh Anh (Leader)
-  -Nguyễn Doãn Toàn (Frontend)
-  -Chu Thị Mỹ Duyên (Frontend)
-  -Trần Đăng Tài (Backend)
+- Nguyễn Minh Anh (Leader)
+- Nguyễn Doãn Toàn (Frontend)
+- Chu Thị Mỹ Duyên (Frontend)
+- Trần Đăng Tài (Backend)
 
 ---
 ## 📜 License
