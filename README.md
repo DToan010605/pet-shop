@@ -39,4 +39,9 @@ Dự án cho phép khách hàng mua sản phẩm, đặt dịch vụ chăm sóc 
 git clone https://github.com/DToan010605/pet-shop.git
 cd pet-shop
 
+### 3. Cài đặt dependencies
+npm install
+# hoặc
+yarn install
 
+---
