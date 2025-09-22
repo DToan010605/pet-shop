@@ -1,19 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
-// generator client {
-//   provider = "prisma-client-js"
-//   output   = "../generated/prisma"
-// }
-
-// datasource db {
-//   provider = "postgresql"
-//   url      = env("DATABASE_URL")
-// }
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -23,17 +10,61 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  password  String
-  name      String?
-  role      Role     @default(USER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+// Bảng roles - Vai trò người dùng
+model Role {
+  id          Int    @id @default(autoincrement())
+  name        String @unique // 'admin', 'staff', 'customer'
+  description String?
+  
+  users User[]
+  
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  
+  @@map("roles")
 }
 
-enum Role {
-  USER
-  ADMIN
+// Bảng users - Người dùng hệ thống
+model User {
+  id           Int       @id @default(autoincrement())
+  email        String    @unique
+  passwordHash String    @map("password_hash")
+  fullName     String?   @map("full_name")
+  phone        String?
+  //avatar       String?
+  status       UserStatus @default(ACTIVE)
+  roleId       Int       @map("role_id")
+  
+  // Relationships
+  role Role @relation(fields: [roleId], references: [id])
+  
+  // Thông tin thêm
+  emailVerified    Boolean   @default(false) @map("email_verified")
+  emailVerifiedAt  DateTime? @map("email_verified_at")
+  lastLoginAt      DateTime? @map("last_login_at")
+  
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  
+  @@map("users")
+}
+
+// Enum cho trạng thái user
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+}
+
+// Bảng sessions - Phiên đăng nhập
+model Session {
+  id        String   @id @default(cuid())
+  userId    Int      @map("user_id")
+  token     String   @unique
+  ip        String?
+  userAgent String?  @map("user_agent")
+  expiresAt DateTime @map("expires_at")
+  
+  createdAt DateTime @default(now()) @map("created_at")
+  
+  @@map("sessions")
 }
