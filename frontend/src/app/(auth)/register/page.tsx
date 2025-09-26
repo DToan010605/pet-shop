@@ -1,38 +1,31 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useMemo, useState } from "react";
+
+const PAGE_BG = "#F5EFE6"; // nền trang, trùng nền khu logo
+const LOGO_SRC = "/logo-petshop.png";
+const RIGHT_IMG = "/auth-hero.jpg";
 
 export default function RegisterPage() {
   const [form, setForm] = useState({
-    email: "",
-    password: "",
-    firstName: "",
-    lastName: "",
-    day: "",
-    month: "",
-    year: "",
-    country: "VN",
-    accepted: false,
+    email: "", password: "", firstName: "", lastName: "",
+    day: "", month: "", year: "", country: "VN", accepted: false,
   });
 
   const onChange =
     (key: keyof typeof form) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-      const value =
-        e.target.type === "checkbox"
-          ? (e.target as HTMLInputElement).checked
-          : e.target.value;
-      setForm((s) => ({ ...s, [key]: value }));
+      const v = e.target.type === "checkbox"
+        ? (e.target as HTMLInputElement).checked
+        : e.target.value;
+      setForm((s) => ({ ...s, [key]: v }));
     };
 
   const isValid = useMemo(() => {
     const emailOk = /^\S+@\S+\.\S+$/.test(form.email.trim());
     const passOk = form.password.trim().length >= 6;
     const nameOk = form.firstName.trim() && form.lastName.trim();
-    const d = Number(form.day),
-      m = Number(form.month),
-      y = Number(form.year);
-    const dateOk =
-      d >= 1 && d <= 31 && m >= 1 && m <= 12 && y >= 1900 && y <= new Date().getFullYear();
+    const d = +form.day, m = +form.month, y = +form.year;
+    const dateOk = d>=1 && d<=31 && m>=1 && m<=12 && y>=1900 && y<=new Date().getFullYear();
     return emailOk && passOk && nameOk && dateOk && form.accepted;
   }, [form]);
 
@@ -43,103 +36,88 @@ export default function RegisterPage() {
   };
 
   return (
-    <main className="h-screen grid grid-cols-12 bg-[#F5F5F5]">
-      {/* LEFT */}
+    <main className="min-h-screen grid grid-cols-12" style={{ backgroundColor: PAGE_BG }}>
+      {/* LEFT: FORM */}
       <section className="col-span-12 lg:col-span-7 flex flex-col">
-        {/* Logo */}
-        <div className="h-14 flex items-center px-6 lg:px-12">
-          <span className="text-emerald-600 font-extrabold text-xl tracking-wide">
-            PET SHOP
-          </span>
-          <span className="ml-2 text-gray-500 font-semibold">APP</span>
+        {/* Logo (to hơn) */}
+        <div className="h-16 flex items-center px-6 lg:px-12" style={{ backgroundColor: PAGE_BG }}>
+          <img src={LOGO_SRC} alt="PET SHOP APP" className="h-12 w-auto object-contain" />
         </div>
 
-        {/* Form */}
+        {/* Card form nền trắng */}
         <div className="flex-1 flex items-center justify-center">
-          <form onSubmit={onSubmit} className="w-full max-w-md px-6">
-            <h1 className="text-3xl font-extrabold text-gray-800 mb-6">
+          <form
+            onSubmit={onSubmit}
+            className="w-full max-w-md px-6 py-6 bg-white rounded-2xl shadow-sm border border-gray-200"
+          >
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-800 mb-6">
               Tạo một tài khoản mới
             </h1>
 
             {/* Email */}
-            <label className="block text-sm text-gray-600 mb-1">
-              Nhập email của bạn
-            </label>
+            <label className="block text-sm text-gray-700 mb-1">Nhập email của bạn</label>
             <input
-              type="email"
-              value={form.email}
-              onChange={onChange("email")}
-              className="w-full h-10 border-b border-gray-300 outline-none focus:border-emerald-600"
+              type="email" value={form.email} onChange={onChange("email")} placeholder="email@vd.com"
+              className="w-full h-11 bg-white outline-none placeholder-gray-400
+                         border-b border-gray-300 focus:border-emerald-600 transition"
             />
 
             {/* Password */}
-            <label className="block text-sm text-gray-600 mt-4 mb-1">
-              Vui lòng nhập mật khẩu
-            </label>
+            <label className="block text-sm text-gray-700 mt-4 mb-1">Vui lòng nhập mật khẩu</label>
             <input
-              type="password"
-              value={form.password}
-              onChange={onChange("password")}
-              className="w-full h-10 border-b border-gray-300 outline-none focus:border-emerald-600"
+              type="password" value={form.password} onChange={onChange("password")} minLength={6}
+              placeholder="Tối thiểu 6 ký tự"
+              className="w-full h-11 bg-white outline-none placeholder-gray-400
+                         border-b border-gray-300 focus:border-emerald-600 transition"
             />
 
-            {/* Name */}
-            <div className="grid grid-cols-2 gap-6 mt-4">
+            {/* Họ / Tên */}
+            <div className="grid grid-cols-2 gap-4 mt-4">
               <div>
-                <label className="block text-sm text-gray-600 mb-1">Họ</label>
+                <label className="block text-sm text-gray-700 mb-1">Họ</label>
                 <input
-                  type="text"
-                  value={form.lastName}
-                  onChange={onChange("lastName")}
-                  className="w-full h-10 border-b border-gray-300 outline-none focus:border-emerald-600"
+                  type="text" value={form.lastName} onChange={onChange("lastName")} placeholder="Nguyễn"
+                  className="w-full h-11 bg-white outline-none placeholder-gray-400
+                             border-b border-gray-300 focus:border-emerald-600 transition"
                 />
               </div>
               <div>
-                <label className="block text-sm text-gray-600 mb-1">Tên</label>
+                <label className="block text-sm text-gray-700 mb-1">Tên</label>
                 <input
-                  type="text"
-                  value={form.firstName}
-                  onChange={onChange("firstName")}
-                  className="w-full h-10 border-b border-gray-300 outline-none focus:border-emerald-600"
+                  type="text" value={form.firstName} onChange={onChange("firstName")} placeholder="Văn A"
+                  className="w-full h-11 bg-white outline-none placeholder-gray-400
+                             border-b border-gray-300 focus:border-emerald-600 transition"
                 />
               </div>
             </div>
 
-            {/* Birthday */}
+            {/* Ngày sinh */}
             <p className="text-xs text-gray-500 mt-4 mb-2">Thông tin ngày sinh</p>
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid grid-cols-3 gap-4">
               <input
-                type="text"
-                placeholder="Ngày"
-                value={form.day}
-                onChange={onChange("day")}
-                className="h-10 border-b border-gray-300 outline-none focus:border-emerald-600"
+                type="text" placeholder="Ngày" value={form.day} onChange={onChange("day")}
+                className="h-11 bg-white outline-none placeholder-gray-400
+                           border-b border-gray-300 focus:border-emerald-600 transition"
               />
               <input
-                type="text"
-                placeholder="Tháng"
-                value={form.month}
-                onChange={onChange("month")}
-                className="h-10 border-b border-gray-300 outline-none focus:border-emerald-600"
+                type="text" placeholder="Tháng" value={form.month} onChange={onChange("month")}
+                className="h-11 bg-white outline-none placeholder-gray-400
+                           border-b border-gray-300 focus:border-emerald-600 transition"
               />
               <input
-                type="text"
-                placeholder="Năm"
-                value={form.year}
-                onChange={onChange("year")}
-                className="h-10 border-b border-gray-300 outline-none focus:border-emerald-600"
+                type="text" placeholder="Năm" value={form.year} onChange={onChange("year")}
+                className="h-11 bg-white outline-none placeholder-gray-400
+                           border-b border-gray-300 focus:border-emerald-600 transition"
               />
             </div>
 
-            {/* Country */}
+            {/* Quốc gia */}
             <div className="mt-4">
-              <label className="block text-sm text-gray-600 mb-1">
-                Quốc gia/Khu vực
-              </label>
+              <label className="block text-sm text-gray-700 mb-1">Quốc gia/Khu vực</label>
               <select
-                value={form.country}
-                onChange={onChange("country")}
-                className="w-full h-10 border-b border-gray-300 outline-none focus:border-emerald-600"
+                value={form.country} onChange={onChange("country")}
+                className="w-full h-11 bg-white outline-none
+                           border-b border-gray-300 focus:border-emerald-600 transition"
               >
                 <option value="VN">Việt Nam</option>
                 <option value="US">United States</option>
@@ -147,13 +125,11 @@ export default function RegisterPage() {
               </select>
             </div>
 
-            {/* Terms */}
+            {/* Điều khoản */}
             <label className="mt-4 flex items-start gap-2 text-sm text-gray-600">
               <input
-                type="checkbox"
-                checked={form.accepted}
-                onChange={onChange("accepted")}
-                className="mt-1 h-4 w-4 border-gray-400 accent-emerald-600"
+                type="checkbox" checked={form.accepted} onChange={onChange("accepted")}
+                className="mt-1 h-4 w-4 border border-gray-400 rounded-sm accent-emerald-600"
               />
               <span>
                 Tôi đồng ý với <span className="underline">Điều khoản</span> và{" "}
@@ -161,58 +137,41 @@ export default function RegisterPage() {
               </span>
             </label>
 
-            {/* Button */}
+            {/* Nút chính vẫn màu cam */}
             <button
-              type="submit"
-              disabled={!isValid}
-              className={`mt-6 w-full rounded-full py-3 font-semibold transition-all ${
-                isValid
-                  ? "bg-emerald-600 text-white hover:bg-emerald-700"
-                  : "bg-gray-200 text-gray-400 cursor-not-allowed"
+              type="submit" disabled={!isValid}
+              className={`mt-6 w-full rounded-full py-3 font-semibold transition ${
+                isValid ? "bg-orange-500 text-white hover:bg-orange-600"
+                        : "bg-orange-200 text-white/70 cursor-not-allowed"
               }`}
             >
               Đăng ký
             </button>
 
-            {/* Divider */}
-            <p className="text-center text-sm text-gray-500 mt-4">
-              Hoặc sử dụng tài khoản
-            </p>
-
-            {/* Social buttons */}
-            <div className="mt-3 space-y-3">
-              <button className="w-full py-3 rounded-full bg-[#1877F2] text-white font-semibold flex items-center justify-center gap-3 hover:bg-[#145dbf] transition">
-                <img src="/facebook.svg.png" alt="Facebook" className="w-5 h-5" />
-                Đăng nhập với Facebook
+            {/* Social */}
+            <p className="text-center text-sm text-gray-500 mt-4">Hoặc sử dụng tài khoản</p>
+            <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <button type="button"
+                className="w-full py-3 rounded-full bg-[#1877F2] text-white font-semibold flex items-center justify-center gap-3 hover:brightness-95 transition">
+                <img src="/facebook.svg.png" alt="Facebook" className="w-5 h-5" /> Facebook
               </button>
-
-              <button className="w-full py-3 rounded-full bg-black text-white font-semibold flex items-center justify-center gap-3 hover:bg-gray-900 transition">
-                <img src="/google.svg.png" alt="Google" className="w-5 h-5" />
-                Đăng nhập với Google
+              <button type="button"
+                className="w-full py-3 rounded-full bg-black text-white font-semibold flex items-center justify-center gap-3 hover:brightness-95 transition">
+                <img src="/google.svg.png" alt="Google" className="w-5 h-5" /> Google
               </button>
             </div>
+
+            <p className="text-center text-sm text-gray-500 mt-6">
+              Đã có tài khoản?{" "}
+              <a href="/login" className="text-orange-600 hover:underline">Đăng nhập</a>
+            </p>
           </form>
         </div>
       </section>
 
-      {/* RIGHT */}
-      <aside className="hidden lg:flex col-span-5 bg-emerald-600 text-white items-center justify-center">
-        <div className="text-center px-8">
-          <h2 className="text-2xl font-bold mb-3">
-            Chào mừng bạn đến với PET SHop
-          </h2>
-          <p className="text-sm opacity-90">
-            Vui lòng đăng kí tạo tài khoản để sử dụng các dịch vụ của chúng tôi
-          </p>
-          <div className="mt-10">
-            <p className="text-xs opacity-90 mb-2">
-              Nếu đã có tài khoản, vui lòng chọn đăng nhập
-            </p>
-            <button className="px-6 py-2 rounded-full border border-white hover:bg-white/10">
-              <a href="/login">Đăng nhập</a>
-            </button>
-          </div>
-        </div>
+      {/* RIGHT: ẢNH FULL, KHÔNG OVERLAY */}
+      <aside className="relative hidden lg:block col-span-5">
+        <div className="absolute inset-0 bg-center bg-cover" style={{ backgroundImage: `url('${RIGHT_IMG}')` }} />
       </aside>
     </main>
   );
